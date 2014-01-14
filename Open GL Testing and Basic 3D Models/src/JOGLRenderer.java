@@ -12,9 +12,9 @@ public class JOGLRenderer extends Renderer
         public double LRrot,UDrot, UDx, UDy, UDz,LRx,LRy,LRz, Cdist;
 
         private Light l;
-        private float[][] GL_VERTEX_ARRAY;
-        private float[][] GL_NORMAL_ARRAY;
-        private ObjReader OR;
+        private float[][] vertexArray;
+        private float[][] normalArray;
+        private ObjReader objReader;
 
         int a = 0;
         
@@ -22,18 +22,19 @@ public class JOGLRenderer extends Renderer
 
 
 		public JOGLRenderer(ObjReader oR) {
-			OR = oR;
-			GL_VERTEX_ARRAY = new float[(int) Math.floor(OR.tmpVertices.size())][3];
-			GL_NORMAL_ARRAY = new float[(int) Math.floor(OR.tmpVertexNormals.size())][3];
-			for(int i = 0; i < OR.tmpVertices.size(); i++){
-				GL_VERTEX_ARRAY[i][0] = OR.tmpVertices.get(i);		
-				GL_VERTEX_ARRAY[i][1] = OR.tmpVertices.get(i+1);
-				GL_VERTEX_ARRAY[i][2] = OR.tmpVertices.get(i+2);
+			super();
+			objReader = oR;
+			vertexArray = new float[(int) Math.floor(objReader.tmpVertices.size())][3];
+			normalArray = new float[(int) Math.floor(objReader.tmpVertexNormals.size())][3];
+			for(int i = 0; i < objReader.tmpVertices.size(); i++){
+				vertexArray[i][0] = objReader.tmpVertices.get(i);		
+				vertexArray[i][1] = objReader.tmpVertices.get(i+1);
+				vertexArray[i][2] = objReader.tmpVertices.get(i+2);
 				}
-			for(int i = 0; i < OR.tmpVertexNormals.size(); i++){
-				GL_NORMAL_ARRAY[i][0] = OR.tmpVertexNormals.get(i);
-				GL_NORMAL_ARRAY[i][1] = OR.tmpVertexNormals.get(i+1);
-				GL_NORMAL_ARRAY[i][2] = OR.tmpVertexNormals.get(i+2);
+			for(int i = 0; i < objReader.tmpVertexNormals.size(); i++){
+				normalArray[i][0] = objReader.tmpVertexNormals.get(i);
+				normalArray[i][1] = objReader.tmpVertexNormals.get(i+1);
+				normalArray[i][2] = objReader.tmpVertexNormals.get(i+2);
 			}
 			init();
 		}
