@@ -17,7 +17,7 @@ public class WindowListener implements KeyListener{
 
 
 	public void keyPressed(KeyEvent arg0) {
-		if(arg0.getKeyCode() == KeyEvent.VK_LEFT){ //left
+		if(arg0.getKeyCode() == 37){ //left
 		renderer.RotateLeft();
 		}
 		if(arg0.getKeyCode() == 39){ //right
@@ -39,8 +39,8 @@ public class WindowListener implements KeyListener{
 
 	
 	public void keyReleased(KeyEvent arg0) {
-		// TODO Auto-generated method stub
 		
+
 	}
 
 	
