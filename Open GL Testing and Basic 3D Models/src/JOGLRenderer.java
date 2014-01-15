@@ -21,29 +21,19 @@ public class JOGLRenderer extends Renderer
 
 
 
-		public JOGLRenderer(ObjReader oR) {
+
+
+		public JOGLRenderer() {
 			super();
-			objReader = oR;
-			vertexArray = new float[(int) Math.floor(objReader.tmpVertices.size())][3];
-			normalArray = new float[(int) Math.floor(objReader.tmpVertexNormals.size())][3];
-			for(int i = 0; i < objReader.tmpVertices.size(); i++){
-				vertexArray[i][0] = objReader.tmpVertices.get(i);		
-				vertexArray[i][1] = objReader.tmpVertices.get(i+1);
-				vertexArray[i][2] = objReader.tmpVertices.get(i+2);
-				}
-			for(int i = 0; i < objReader.tmpVertexNormals.size(); i++){
-				normalArray[i][0] = objReader.tmpVertexNormals.get(i);
-				normalArray[i][1] = objReader.tmpVertexNormals.get(i+1);
-				normalArray[i][2] = objReader.tmpVertexNormals.get(i+2);
-			}
-			init();
+		
 		}
 
 
 		public void init ()
         {
 
-        		
+        		float x = JOGLApp.vertexArray[0][0];
+        		System.out.println(x);
         		Cdist = 8;
                 LRrot = 0;
                 UDrot = 0;
@@ -67,7 +57,7 @@ public class JOGLRenderer extends Renderer
                     0, 1, 0
         				);
     			
-        		//System.out.println(a);
+        		//System.out.println(vertexArray[a][0]);
         		//a++;
 
                 gl.glRotated(UDrot, UDx, UDy, UDz);
