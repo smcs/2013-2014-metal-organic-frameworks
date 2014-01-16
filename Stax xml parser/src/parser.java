@@ -40,14 +40,14 @@ public class parser {
 				break;
 
 			case XMLStreamConstants.END_ELEMENT:
-				switch (reader.getLocalName()){
-				case "n":
+				if ("n".equals(reader.getLocalName())) {
 					nodeList.add(currNode);
-					break;
-				case "b":
-					bondList.add(currBond);
-					break;
 				}
+				
+				if ("b".equals(reader.getLocalName())) {
+					bondList.add(currBond);
+				}
+				break;
 				
 			case XMLStreamConstants.START_DOCUMENT:
 				bondList = new ArrayList<Bond>();
@@ -62,12 +62,12 @@ public class parser {
 		}
 	}
 
-	class Bond {
+	static class Bond {
 		String id;
 		String Order;
 	}
 
-	class CDXML_Node {
+	static class CDXML_Node {
 		String id;
 		String p;
 		String Z;
