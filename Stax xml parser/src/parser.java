@@ -1,19 +1,22 @@
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
 public class parser {
-	public static void main(String[] args) throws XMLStreamException {
+	public static void main(String[] args) throws XMLStreamException, Exception {
 		List<Bond> bondList = null;
 		List<CDXML_Node> nodeList = null;
 		CDXML_Node currNode = null;
 		Bond currBond = null;
 		XMLInputFactory factory = XMLInputFactory.newInstance();
-		XMLStreamReader reader = factory.createXMLStreamReader(ClassLoader
-				.getSystemResourceAsStream("xml/Terephthalic acid.cdxml"));
+		FileInputStream fis = new FileInputStream("xml/Terephthalic acid.cdxml");
+		XMLStreamReader reader = factory.createXMLStreamReader(fis); 
 
 		while (reader.hasNext()) {
 			int event = reader.next();
