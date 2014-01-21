@@ -3,6 +3,7 @@
 
 
 import java.io.IOException;
+import java.util.Vector;
 
 import simplerjogl.*;
 
@@ -12,7 +13,7 @@ public class JOGLApp
 		
 		public static float[] data;
 		public static float[] vertexArray;
-		public static float[][] normalArray;
+		public static Vector<int[]> facesArray;
 		
 		
         public static void main (String[] args) throws IOException 
@@ -28,18 +29,12 @@ public class JOGLApp
 			}
 			
 			
-			data = new float[OR.tmpVertices.size()];
-			data = OR.tmpVertices.getData();
+			
 			vertexArray = new float[OR.tmpVertices.size()];
-			
-			System.out.println(OR.tmpVertices.size());
-			
-			for(int i = 0; i < OR.tmpVertices.size()/3; i++){
-				vertexArray[i] = data[i];		
-
-
-			}
-
+			vertexArray = OR.tmpVertices.getData();
+			System.out.println(vertexArray.length);
+			facesArray = OR.tmpFaces;
+			System.out.println(facesArray.elementAt(87).length);
                 
                 JOGLRenderer MyRenderer = new JOGLRenderer();
                 
