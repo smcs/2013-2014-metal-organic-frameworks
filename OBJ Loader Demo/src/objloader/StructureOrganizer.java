@@ -5,21 +5,30 @@ import java.util.Vector;
 
 public class StructureOrganizer {
 	private int numberofAtoms;
-	private JOGLRenderer MyRenderer;
-	private Vector<float[]> AtomsData;
+
+	public static Vector<float[]> AtomsData = new Vector<float[]>();
 	//numbers per array in order: ID, type, number of bonds currently on atom, X location,
 	//Y location, Z location 
-	private Vector<float[]> BondsData;
+	public static Vector<float[]> BondsData = new Vector<float[]>();
 	//numbers per array in order: Begins, Ends, length, X beginning,
 	//Y beginning, Z beginning, X end, Y end, Z end
 	private boolean complete;
 	
-	public StructureOrganizer(JOGLRenderer M){
+	public StructureOrganizer(){
 		//called by JOGLRenderer to create structure for atoms
-		MyRenderer = M;
+
 		//put all data in AtomsData and BondsData
 		int ID = 0;
 		int BondID = 0;
+		float[] f = new float[]{1,1,0,0,0,0};
+		AtomsData.add(f);
+	
+		float[] e = new float[]{2,1,0,0,0,0};
+		AtomsData.add(e);
+		
+		float[] b = new float[]{1,2,3,0,0,0,0,0,0};
+		BondsData.add(b);
+		
 		
 		int Count = 0;
 		while(complete == false){ //while there is still unfilled data 
@@ -43,8 +52,8 @@ public class StructureOrganizer {
 				}
 			}
 			
-			int i = 0;
-			while(BondsData.get(i) != null){ //for all bonds
+			
+			for(int i = 0; i < BondsData.size(); i++){ //for all bonds
 				if(BondsData.get(i)[6] != 0 && BondsData.get(i)[7] != 0
 						&& BondsData.get(i)[8] != 0){// if the bond doesn't end on the 
 					//origin (ie it has been placed)
@@ -73,6 +82,7 @@ public class StructureOrganizer {
 		}else{
 			//if there is other stuff, place this atom at the end of the bond
 			//it is associated with 
+
 			AtomsData.get(ID)[3] = BondsData.get(BondID)[6];
 			AtomsData.get(ID)[4] = BondsData.get(BondID)[7];
 			AtomsData.get(ID)[5] = BondsData.get(BondID)[8];
@@ -89,8 +99,12 @@ public class StructureOrganizer {
 	
 	public void getBondGeometry(int ID, int numBonds){
 		int[] bond = CalculateHybridization(ID);
-
-		
+		float dx = 0;
+		float dy = 0;
+		float dz = 0;
+		if(bond == null){
+			return;
+		}
 		for(int i = 0; i < bond.length; i++){ //set the start point of each bond
 			//to be the location of the atom 
 			BondsData.get(bond[i])[3] = AtomsData.get(ID)[3];
@@ -103,33 +117,43 @@ public class StructureOrganizer {
 					BondsData.get(bond[0])[2];
 			BondsData.get(bond[0])[7] = BondsData.get(bond[0])[4];
 			BondsData.get(bond[0])[8] = BondsData.get(bond[0])[5];
-		}else{
+			bond[0] = -1;
+			
+		}else{ //if there is a bond already in place, set that index to -1
 			for(int i = 0; i < bond.length; i++){
-				if(BondsData.get(bond[0])[6] != 0 && BondsData.get(bond[0])[7] != 0
-						&& BondsData.get(bond[0])[8] != 0){
+				if(BondsData.get(bond[i])[6] != 0 && BondsData.get(bond[i])[7] != 0
+						&& BondsData.get(bond[i])[8] != 0){
+					dx = -BondsData.get(bond[i])[6] + AtomsData.get(ID)[3];
+					dy = -BondsData.get(bond[i])[7] + AtomsData.get(ID)[4];
+					dz = -BondsData.get(bond[i])[8] + AtomsData.get(ID)[5];
 					bond[i] = -1;
-					
 				}
 			}
 		}
-		//lots of math here
+		
 		if(bond.length == 1){
-			
+			return;
 		}
-		if(bond.length == 2){
-			
+		if(bond.length == 2){ //set the unestablished bond pointing in the other direction
+			for(int i = 0; i < bond.length; i++){
+				if(bond[i] != -1){
+					BondsData.get(bond[i])[6] = dx+ AtomsData.get(ID)[3]; 
+					BondsData.get(bond[i])[7] = dy + AtomsData.get(ID)[4];
+					BondsData.get(bond[i])[8] = dz + AtomsData.get(ID)[5];
+				}
+			}
 		}
 		if(bond.length == 3){
-			
+			return;
 		}
 		if(bond.length == 4){
-			
+			return;
 		}
 		if(bond.length == 5){
-			
+			return;
 		}
 		if(bond.length == 6){
-			
+			return;
 		}
 	}
 	
