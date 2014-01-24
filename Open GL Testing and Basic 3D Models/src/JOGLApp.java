@@ -9,7 +9,7 @@ import simplerjogl.*;
 
 public class JOGLApp
 {
-		private JOGLRenderer MyRenderer;
+		private static JOGLRenderer MyRenderer;
 		
 		public static float[] data;
 		public static float[] vertexArray;

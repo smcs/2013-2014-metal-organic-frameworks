@@ -11,7 +11,7 @@ public class JOGLRenderer extends Renderer
 {
         public double LRrot,UDrot, UDx, UDy, UDz,LRx,LRy,LRz, Cdist;
 
-        private Light l;
+        //private Light l;
         int a = 0;
         
 
@@ -35,8 +35,8 @@ public class JOGLRenderer extends Renderer
                 LRx = 1;
                 LRy = 1;
                 LRz = 1;
-                l = new Light(gl);
-                l.enable();
+               // l = new Light(gl);
+               // l.enable();
 
         }
 
@@ -56,11 +56,12 @@ public class JOGLRenderer extends Renderer
                 //end rotating stuff
 
 
-                
-                gl.glBegin(gl.GL_TRIANGLE_STRIP);
+                //TODO calculate normal vectors using cross product 
+                gl.glBegin(gl.GL_LINE_LOOP);
                 
                 for(int i = 0; i < JOGLApp.facesArray.size(); i++){ //for every face
                 	for(int j = 0; j < JOGLApp.facesArray.elementAt(i).length; j++) //for every point on the face
+
                 	gl.glVertex3f(JOGLApp.vertexArray[3*JOGLApp.facesArray.elementAt(i)[j]]
                 			,JOGLApp.vertexArray[3*JOGLApp.facesArray.elementAt(i)[j]+1]
                 			,JOGLApp.vertexArray[3*JOGLApp.facesArray.elementAt(i)[j]+2]);
