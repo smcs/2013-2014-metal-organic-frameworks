@@ -24,6 +24,7 @@ public class parser {
 														// of nodes
 		Node currNode = null; // Constructs a current node
 		Bond currBond = null; // Constructs a current bond
+		String Text = null; 
 		String tagContent = null; // TagContent is any attribute associated with
 									// a bond or node
 
@@ -58,7 +59,7 @@ public class parser {
 					// node.
 					// If not specified, the atomic number is 6, corresponding
 					// to carbon
-					// (my personal favorite, FYI)!
+					// (my personal favorite, FYI)! 
 				}
 
 				if ("b".equals(reader.getLocalName())) { // Analogous to the "n"
@@ -69,6 +70,10 @@ public class parser {
 					// Order: The order of a bond object (single/double/triple)
 				}
 				break;
+				
+			 case XMLStreamConstants.CHARACTERS:
+				 tagContent = reader.getText().trim();
+				 break;
 
 			case XMLStreamConstants.END_ELEMENT: // indicates the end of an
 													// element
