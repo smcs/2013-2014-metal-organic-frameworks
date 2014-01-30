@@ -1,3 +1,5 @@
+
+import java.util.Vector;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -16,12 +18,16 @@ import javax.xml.stream.XMLStreamReader;
  * @author juliegeng
  * 
  */
+
+
+
 public class parser {
+	static Vector<float[]> Atoms = new Vector<float[]>();
+	static Vector<float[]> Bonds = new Vector<float[]>();
+	
 	public static void main(String[] args) throws XMLStreamException, Exception {
-		List<Bond> bondList = new ArrayList<Bond>(); // Constructs an array list
-														// of bonds
-		List<Node> nodeList = new ArrayList<Node>(); // Constructs an array list
-														// of nodes
+	
+		
 		Node currNode = null; // Constructs a current node
 		Bond currBond = null; // Constructs a current bond
 		String Text = null; 
@@ -65,7 +71,8 @@ public class parser {
 				if ("b".equals(reader.getLocalName())) { // Analogous to the "n"
 															// scenario
 					currBond = new Bond();
-					currBond.id = reader.getAttributeValue(null, "id");
+					currBond.B = reader.getAttributeValue(null, "B");
+					currBond.E = reader.getAttributeValue(null, "E");
 					currBond.Order = reader.getAttributeValue(null, "Order");
 					// Order: The order of a bond object (single/double/triple)
 				}
@@ -78,47 +85,66 @@ public class parser {
 			case XMLStreamConstants.END_ELEMENT: // indicates the end of an
 													// element
 				switch (reader.getLocalName()) {
-				case "n":
-					nodeList.add(currNode); // add the current node to the list
-					break;
-				case "b":
-					bondList.add(currBond); // add the current bond to the list
-					break;
-				case "Order":
-					currBond.Order = tagContent; // Order is a identified as a
-													// tag content.
-					break;
 				case "Element":
 					currNode.Element = tagContent;// Element is a identified as
 													// a tag content.
 					break;
+				case "n":
+					float[] currAtom = new float [6];
+					float f_id = Float.valueOf(currNode.id.trim()).floatValue();
+					float f_element = Float.valueOf(currNode.Element.trim()).floatValue();
+					currAtom[0]= f_id;
+					currAtom[1]= f_element;
+					currAtom[2]=0; //number of bonds
+					currAtom[3]=0; //x beginning
+					currAtom[4]=0; //y beginning
+					currAtom[5]=0; //z beginning
+					Atoms.add(currAtom); 
+					break;
+				
+				case "b":
+					float[] newBond = new float [9];
+					float f_id_bond_begin = Float.valueOf(currBond.B.trim()).floatValue();
+					float f_id_bond_end = Float.valueOf(currBond.E.trim()).floatValue();
+					newBond[0]= f_id_bond_begin ;
+					newBond[1]= f_id_bond_end ;  //end
+				    newBond[2]=1;   //length
+					newBond[3]=0;   //x beginning
+					newBond[4]=0;  //y beginning 
+					newBond[5]=0; //z beginning
+					newBond[6]=0; //z end
+					newBond[7]=0; //y end
+					newBond[8]=0; //z end
+			
+					Bonds.add(newBond); 
+					break;
+					
+				case "Order":
+					currBond.Order = tagContent; // Order is a identified as a
+													// tag content.
+					break;
+					
+				
 				}
 				break;
 
-			case XMLStreamConstants.START_DOCUMENT: // indicates the start of
-													// the document
-				bondList = new ArrayList<Bond>(); //Creates an array list of bond objects
-				nodeList = new ArrayList<Node>(); //Crets an array list of node objects
-				break;
-			}
-
-		}
-
-		/*
-		 * for (Bond bond : bondList){ System.out.println(bond); } //Prints of a list of bonds and the information 
-									//associated with each node
-		 */
-
-		for (Node node : nodeList) { //Prints of a list of nodes and the information 
-									//associated with each node
-			System.out.println(node);
-		}
-
 	}
+		}
+	}
+	
 
+        public Vector<float[]> returnAtoms(){
+                return Atoms;
+        }
+        public Vector<float[]> returnBonds(){
+                return Bonds;
+        }
+        
 	static class Bond {
 		String id;
 		String Order;
+		String B;
+		String E; 
 
 		public String toString() {
 			return id + " " + Order;
