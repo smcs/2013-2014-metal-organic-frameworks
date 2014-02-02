@@ -2,14 +2,20 @@ import java.util.Vector;
 
 public class Node {
 
-	int id;
-	int p;
-	int Z;
-	int Element;
-	Vector<Bond> bonds;
+	private int id;
+	private int Element;
+	private Vector<Bond> bonds;
 
 	public Node() {
 		bonds = new Vector<Bond>();
+	}
+	
+	public int getID(){
+		return id;
+	}
+	
+	public int getElement(){
+		return Element; 
 	}
 	
 	public String toString() {
@@ -24,9 +30,12 @@ public class Node {
 		/* NOTA BENE: we are completely ignoring order here */
 		return bonds.size();
 	}
-
-	public void addOrder(Bond b) {
-		
-		
+	
+	public void setID(int New_id){
+		id = New_id; 
+	}
+	
+	public void setElement(int New_Element){
+		Element= New_Element;
 	}
 }

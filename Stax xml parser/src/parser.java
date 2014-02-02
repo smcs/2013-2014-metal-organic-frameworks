@@ -21,7 +21,9 @@ import javax.xml.stream.XMLStreamReader;
  */
 public class parser {
 	
-	private static NodeMap nodes; 
+	private static HashMap<Integer, Node> nodes = new HashMap<Integer, Node>();
+	private Bond currBond = new Bond(); 
+	private Node currNode = new Node();
 	
 	public static void main(String[] args) throws XMLStreamException, Exception {
 	
@@ -50,13 +52,11 @@ public class parser {
 			case XMLStreamConstants.START_ELEMENT: // Indicates an event is a
 													// start element
 				if ("n".equals(reader.getLocalName())) { // if "n" is detected
-					currNode = new Node(); // Create a node object
-					currNode.id = Integer.parseInt(reader.getAttributeValue(null, "id"));
+					currNode.setID(Integer.parseInt(reader.getAttributeValue(null, "id")));
 					// Access the value of "id" of this node
 					// id: A unique identifier for an object, used when other
 					// objects refer to it.
-					currNode.Element = Integer.parseInt(reader
-							.getAttributeValue(null, "Element"));
+					currNode.setElement(Integer.parseInt(reader.getAttributeValue(null, "Element")));
 					// Access the value of "Element" of this node
 					// Element: The atomic number of the atom representing this
 					// node.
@@ -67,10 +67,9 @@ public class parser {
 
 				if ("b".equals(reader.getLocalName())) { // Analogous to the "n"
 															// scenario
-					currBond = new Bond();
-					currBond.B =Integer.parseInt(reader.getAttributeValue(null, "B"));
-					currBond.E = Integer.parseInt(reader.getAttributeValue(null, "E"));
-					currBond.Order = Integer.parseInt(reader.getAttributeValue(null, "Order"));
+					currBond.setB(Integer.parseInt(reader.getAttributeValue(null, "B")));
+					currBond.setE(Integer.parseInt(reader.getAttributeValue(null, "E")));
+					currBond.setOrder (Integer.parseInt(reader.getAttributeValue(null, "Order")));
 					// Order: The order of a bond object (single/double/triple)
 				}
 				break;
@@ -82,25 +81,13 @@ public class parser {
 			case XMLStreamConstants.END_ELEMENT: // indicates the end of an
 													// element
 				switch (reader.getLocalName()) {
-				case "Element":
-					;// Element is a identified as
-													// a tag content.
-					break;
 				case "n":
-					nodes.put(currNode.id, currNode); 
+					nodes.put(currNode.getID(), currNode); 
 					break;
 				
 				case "b":
-					nodes.get(currBond.B).addBond(currBond); 
-					nodes.get(currBond.E).addBond(currBond); 
+
 					break;
-					
-				case "Order":
-					; // Order is a identified as a
-													// tag content.
-					break;
-					
-				
 				}
 				break;
 
