@@ -22,6 +22,7 @@ import javax.xml.stream.XMLStreamReader;
 public class parser {
 	
 	private static HashMap<Integer, Node> nodes = new HashMap<Integer, Node>();
+	private static HashMap<Integer, Bond> bonds= new HashMap <Integer, Bond>(); 
 	private Bond currBond = new Bond(); 
 	private Node currNode = new Node();
 	
@@ -86,7 +87,6 @@ public class parser {
 					break;
 				
 				case "b":
-
 					break;
 				}
 				break;

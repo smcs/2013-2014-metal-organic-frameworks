@@ -1,4 +1,8 @@
 public class Bond {
+	
+	/**
+	 * Beginning Node ID, End Node ID, Length =1,  Order 
+	 */
 
 	private int id;
 	private int Order=1;
@@ -33,6 +37,5 @@ public class Bond {
 
 	public void setE(int parseInt) {
 		E= parseInt; 
-		
 	}
 }
