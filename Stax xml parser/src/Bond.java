@@ -1,3 +1,5 @@
+import java.util.Vector;
+
 public class Bond {
 	
 	/**
@@ -9,9 +11,6 @@ public class Bond {
 	private int B;
 	private int E;
 
-	public String toString() {
-		return id + " " + Order;
-	}
 
 	public void setOrder(Integer NewOrder){
 		if (NewOrder !=  null && NewOrder > 0){
@@ -19,8 +18,8 @@ public class Bond {
 		}
 	}
 	
-	public int getID(){
-		return id;
+	public int getOrder(){
+		return Order; 
 	}
 	
 	public int getB(){
