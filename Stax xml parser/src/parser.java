@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
@@ -25,6 +26,7 @@ public class parser {
 	private static HashMap<Integer, Bond> bonds= new HashMap <Integer, Bond>(); 
 	private Bond currBond = new Bond(); 
 	private Node currNode = new Node();
+	private int Number_of_Bonds;
 	
 	public static void main(String[] args) throws XMLStreamException, Exception {
 	
@@ -68,6 +70,7 @@ public class parser {
 
 				if ("b".equals(reader.getLocalName())) { // Analogous to the "n"
 															// scenario
+					currBond.setID(Integer.parseInt(reader.getAttributeValue(null, "id")));
 					currBond.setB(Integer.parseInt(reader.getAttributeValue(null, "B")));
 					currBond.setE(Integer.parseInt(reader.getAttributeValue(null, "E")));
 					currBond.setOrder (Integer.parseInt(reader.getAttributeValue(null, "Order")));
@@ -87,11 +90,13 @@ public class parser {
 					break;
 				
 				case "b":
+					bonds.put(currBond.getID(), currBond);
 					break;
 				}
 				break;
 
 	}
 		}
+	
 	}
 }

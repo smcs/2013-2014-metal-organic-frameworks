@@ -5,12 +5,10 @@ public class Bond {
 	/**
 	 * Beginning Node ID, End Node ID, Length =1,  Order 
 	 */
-
 	private int id;
 	private int Order=1;
 	private int B;
 	private int E;
-
 
 	public void setOrder(Integer NewOrder){
 		if (NewOrder !=  null && NewOrder > 0){
@@ -20,6 +18,14 @@ public class Bond {
 	
 	public int getOrder(){
 		return Order; 
+	}
+	
+	public void setID (int New_ID){
+		id=New_ID; 
+	}
+	
+	public int getID(){
+		return id; 
 	}
 	
 	public int getB(){
@@ -37,4 +43,6 @@ public class Bond {
 	public void setE(int parseInt) {
 		E= parseInt; 
 	}
+	
+
 }

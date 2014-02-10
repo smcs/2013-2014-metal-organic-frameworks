@@ -7,7 +7,6 @@ public class Node {
 	
 	/*
 	 * 1. Calculate hybridization on each atom= number of bonds attached to each atom 
-	 * 2. Create a separate hash map for bond 
 	 */
 
 	private int id;
