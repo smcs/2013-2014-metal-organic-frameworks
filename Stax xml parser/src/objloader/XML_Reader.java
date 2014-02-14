@@ -13,6 +13,7 @@ public class XML_Reader {
 		
 	}
 	
+
 	
 	public void getInfo(){
 		//read XML stuff 

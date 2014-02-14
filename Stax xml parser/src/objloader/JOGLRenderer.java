@@ -5,8 +5,6 @@ import java.io.*;
 import javax.media.opengl.GL;
 
 import simplerjogl.*;
-import simplerjogl.loader.LoadedModel;
-import simplerjogl.loader.obj.*;
 
 /**
  * Demonstrate the use of an OBJ Loader to import Wavefront OBJ files into
@@ -17,8 +15,7 @@ import simplerjogl.loader.obj.*;
  */
 public class JOGLRenderer extends Renderer {
 
-	/* a model that will be loaded from a Wavefront OBJ file */
-	private LoadedModel suzanne;
+
 	
 
 	private int degreesOfRotation;
@@ -30,11 +27,13 @@ public class JOGLRenderer extends Renderer {
 		 * since we are dealing with file I/O, IOExceptions may be thrown so we
 		 * either need to throw them ourselves or catch them.
 		 */
+		/*
 		try {
-			suzanne = new ObjLoader(gl).load("C:\\Users\\Owner\\Documents\\Spacer.obj");
+			//suzanne = new ObjLoader(gl).load("C:\\Users\\Owner\\Documents\\Spacer.obj");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		*/
 		
 
 
@@ -74,7 +73,7 @@ public class JOGLRenderer extends Renderer {
 		}
 	}
 	
-	public void place(int atomNumber,float dx,float dy,float dz){
-		suzanne.draw();
-	}
+	//public void place(int atomNumber,float dx,float dy,float dz){
+	//	suzanne.draw();
+	//}
 }
