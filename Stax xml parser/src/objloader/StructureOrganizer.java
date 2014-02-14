@@ -1,5 +1,6 @@
 package objloader;
 
+import java.util.HashMap;
 import java.util.Vector;
 
 public class StructureOrganizer {
@@ -13,7 +14,7 @@ public class StructureOrganizer {
 	//Y beginning, Z beginning, X end, Y end, Z end, order 
 	private boolean complete;
 	
-	public StructureOrganizer(){
+	public StructureOrganizer(parser p){
 		//called by JOGLRenderer to create structure for atoms
 
 		//put all data in AtomsData and BondsData
@@ -21,6 +22,7 @@ public class StructureOrganizer {
 		int BondID = 0;
 		
 		//test inputs 
+		/*
 		float[] f = new float[]{1,1,0,0,0,0};
 		AtomsData.add(f);
 	
@@ -29,7 +31,10 @@ public class StructureOrganizer {
 		
 		float[] b = new float[]{1,2,3,0,0,0,0,0,0};
 		BondsData.add(b);
+		*/
 		//end test inputs 
+		AtomsData = convertNode(p.return_nodes());
+		BondsData = convertBond(p.return_bonds()); 
 		
 		
 		int Count = 0;
@@ -71,6 +76,39 @@ public class StructureOrganizer {
 				complete = true;
 			}
 		}
+	}
+	private Vector<float[]> convertBond(HashMap<Integer, Bond> return_bonds) {
+		Vector<float[]> Bond_data = new Vector<float[]>();
+		int count = 0; 
+		for (Integer key : return_bonds.keySet()) {
+		    Bond_data.add(new float[10]);
+		    Bond_data.get(count)[0] = return_bonds.get(key).getB();
+		    Bond_data.get(count)[1] = return_bonds.get(key).getE();
+		    Bond_data.get(count)[2] = 1; //get library for this 
+		    Bond_data.get(count)[3] = 0; 
+		    Bond_data.get(count)[4] = 0;
+		    Bond_data.get(count)[5] = 0;
+		    Bond_data.get(count)[6] = 0;
+		    Bond_data.get(count)[7] = 0;
+		    Bond_data.get(count)[8] = 0;
+		    Bond_data.get(count)[9] = return_bonds.get(key).getOrder();
+		}
+		return Bond_data;
+	}
+	
+	private Vector<float[]> convertNode(HashMap<Integer, Node> return_nodes) {
+		Vector<float[]> Node_data = new Vector<float[]>();
+		int count = 0; 
+		for (Integer key : return_nodes.keySet()) {
+		    Node_data.add(new float[10]);
+		    Node_data.get(count)[0] = return_nodes.get(key).getID();
+		    Node_data.get(count)[1] = return_nodes.get(key).getElement();
+		    Node_data.get(count)[2] = 0; 
+		    Node_data.get(count)[3] = 0; 
+		    Node_data.get(count)[4] = 0;
+		    Node_data.get(count)[5] = 0;
+		}
+		return Node_data;
 	}
 	public void Place_Atom(int ID, int BondID){
 		//places an atom

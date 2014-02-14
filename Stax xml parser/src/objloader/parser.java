@@ -29,7 +29,7 @@ public class parser {
 	private Node currNode = new Node();
 	private int Number_of_Bonds;
 	
-	public static void main(String[] args) throws XMLStreamException, Exception {
+	public parser() throws XMLStreamException, Exception {
 	
 		Node currNode = null; // Constructs a current node
 		Bond currBond = null; // Constructs a current bond
