@@ -28,22 +28,18 @@ public class parser {
 	private Bond currBond = new Bond(); 
 	private Node currNode = new Node();
 	private int Number_of_Bonds;
+	private String Text = null; 
+	private String tagContent = null; // TagContent is any attribute associated with
+								// a bond or node
 	
 	public parser() throws XMLStreamException, Exception {
-	
-		Node currNode = null; // Constructs a current node
-		Bond currBond = null; // Constructs a current bond
-		String Text = null; 
-		String tagContent = null; // TagContent is any attribute associated with
-									// a bond or node
-
 		XMLInputFactory factory = XMLInputFactory.newInstance();
 		// "The class javax.xml.stream.XMLInputFactory is a root component of
 		// the Java StAX API. From this class you can create both an
 		// XMLStreamREader
 		// and an XMLEventReader." In other words, this defines the StAX parser.
 
-		FileInputStream fis = new FileInputStream("xml/Terephthalic acid.cdxml");
+		FileInputStream fis = new FileInputStream("xml/Methane.cdxml");
 		// The InputStream reads a cdxml file.
 		XMLStreamReader reader = factory.createXMLStreamReader(fis);
 		// This iterates through the XML file using next().
@@ -74,7 +70,8 @@ public class parser {
 					currBond.setID(Integer.parseInt(reader.getAttributeValue(null, "id")));
 					currBond.setB(Integer.parseInt(reader.getAttributeValue(null, "B")));
 					currBond.setE(Integer.parseInt(reader.getAttributeValue(null, "E")));
-					currBond.setOrder (Integer.parseInt(reader.getAttributeValue(null, "Order")));
+					if(reader.getAttributeValue(null, "Order") != null){
+					currBond.setOrder (Integer.parseInt(reader.getAttributeValue(null, "Order")));}
 					// Order: The order of a bond object (single/double/triple)
 				}
 				break;
