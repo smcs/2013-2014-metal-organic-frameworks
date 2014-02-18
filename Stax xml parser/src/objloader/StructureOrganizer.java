@@ -1,6 +1,7 @@
 package objloader;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Vector;
 
 public class StructureOrganizer {
@@ -132,7 +133,19 @@ public class StructureOrganizer {
 
 	
 	public int[] CalculateHybridization(int IDnumber){
-		int[] data = null;
+		LinkedList<int[]> LL = new LinkedList<int[]>();
+		
+		for (int i=0; i < BondsData.size(); i++){
+			if(BondsData.get(i)[0] == IDnumber || BondsData.get(i)[1] == IDnumber){
+				int [] d= new int[1];
+				d[0]=i;
+				LL.add(d);
+			}
+		}
+		int [] data = new int[LL.size()];
+		for (int i = 0; i < LL.size(); i ++){
+			data[i]= LL.get(i)[0];
+		}
 		//TODO Julie write this please 
 		//searches the xml to tell how many atoms the atom is bonded to 
 		return data;
