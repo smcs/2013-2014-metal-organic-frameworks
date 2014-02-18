@@ -15,6 +15,7 @@ public class StructureOrganizer {
 	//Y beginning, Z beginning, X end, Y end, Z end, order 
 	private boolean complete;
 	
+	
 	public StructureOrganizer(parser p){
 		//called by JOGLRenderer to create structure for atoms
 
@@ -36,6 +37,8 @@ public class StructureOrganizer {
 		//end test inputs 
 		AtomsData = convertNode(p.return_nodes());
 		BondsData = convertBond(p.return_bonds()); 
+		System.out.println(AtomsData.get(0)[0]);
+		System.out.println(AtomsData.get(1)[0]);
 		
 		
 		int Count = 0;
@@ -100,14 +103,17 @@ public class StructureOrganizer {
 	private Vector<float[]> convertNode(HashMap<Integer, Node> return_nodes) {
 		Vector<float[]> Node_data = new Vector<float[]>();
 		int count = 0; 
-		for (Integer key : return_nodes.keySet()) {
+		for (Integer key : return_nodes.keySet()) {  //key is the index of the hash map
+			System.out.println("key is: " + key);
 		    Node_data.add(new float[10]);
 		    Node_data.get(count)[0] = return_nodes.get(key).getID();
+		    System.out.println(return_nodes.get(key).getID());
 		    Node_data.get(count)[1] = return_nodes.get(key).getElement();
 		    Node_data.get(count)[2] = 0; 
 		    Node_data.get(count)[3] = 0; 
 		    Node_data.get(count)[4] = 0;
 		    Node_data.get(count)[5] = 0;
+		    count++;
 		}
 		return Node_data;
 	}
@@ -136,7 +142,10 @@ public class StructureOrganizer {
 		LinkedList<int[]> LL = new LinkedList<int[]>();
 		
 		for (int i=0; i < BondsData.size(); i++){
+			//System.out.println(IDnumber);
+			System.out.println(BondsData.get(i)[0]+ " "+ BondsData.get(i)[1]);
 			if(BondsData.get(i)[0] == IDnumber || BondsData.get(i)[1] == IDnumber){
+
 				int [] d= new int[1];
 				d[0]=i;
 				LL.add(d);
@@ -156,6 +165,7 @@ public class StructureOrganizer {
 	public void getBondGeometry(int ID, int numBonds){
 		
 		int[] bond = CalculateHybridization(ID);
+		
 		float dx = 0;
 		float dy = 0;
 		float dz = 0;
@@ -176,6 +186,7 @@ public class StructureOrganizer {
 		}
 		if(numBonds == 0){ //if there are currently no bonds on the screen
 			//set the first bond pointing in the X direction. 
+			
 			BondsData.get(bond[0])[6] = BondsData.get(bond[0])[3] +
 					BondsData.get(bond[0])[2];
 			BondsData.get(bond[0])[7] = BondsData.get(bond[0])[4];
