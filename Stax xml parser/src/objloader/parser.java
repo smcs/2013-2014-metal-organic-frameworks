@@ -59,7 +59,11 @@ public class parser {
 					// Access the value of "id" of this node
 					// id: A unique identifier for an object, used when other
 					// objects refer to it.
+					
 					currNode.setElement(Integer.parseInt(reader.getAttributeValue(null, "Element")));
+					if (currNode.getID() == 16){
+					currNode.setElement(2);
+					}
 					// Access the value of "Element" of this node
 					// Element: The atomic number of the atom representing this
 					// node.
@@ -88,10 +92,12 @@ public class parser {
 				switch (reader.getLocalName()) {
 				case "n":
 					nodes.put(currNode.getID(), currNode); 
+					currNode = new Node(); 
 					break;
 				
 				case "b":
 					bonds.put(currBond.getID(), currBond);
+					currBond = new Bond();
 					break;
 				}
 				break;
@@ -100,8 +106,8 @@ public class parser {
 	}
 	
 	public HashMap<Integer, Node> return_nodes(){
-		System.out.println(nodes.get(14).getID());
-		System.out.println(nodes.get(16).getID());
+		System.out.println(nodes.get(14).getElement());
+		System.out.println(nodes.get(16).getElement());
 		return nodes; 
 	}
 	

@@ -48,7 +48,7 @@ public class StructureOrganizer {
 			
 			if(Count == 0){ //if this is the first atom 
 			Place_Atom(ID, BondID); //place an atom
-			getBondGeometry(ID, (int) AtomsData.get(ID)[2]); 
+			getBondGeometry((int) AtomsData.get(ID)[0], (int) AtomsData.get(ID)[2], ID); 
 			//get the bond geometry for that atom
 			}else{
 				int j = 0;
@@ -56,7 +56,7 @@ public class StructureOrganizer {
 					if(AtomsData.get(j)[3] != 0 && AtomsData.get(j)[4] != 0 
 					&& AtomsData.get(j)[5] != 0){ //if the atom isn't at the origin
 						getBondGeometry( (int) AtomsData.get(j)[0],
-						(int) AtomsData.get(j)[2]); // get its bond geometry
+						(int) AtomsData.get(j)[2], j); // get its bond geometry
 						Unfinished = Unfinished + 1; 
 					}
 					j = j + 1;
@@ -142,10 +142,10 @@ public class StructureOrganizer {
 		LinkedList<int[]> LL = new LinkedList<int[]>();
 		
 		for (int i=0; i < BondsData.size(); i++){
-			//System.out.println(IDnumber);
-			System.out.println(BondsData.get(i)[0]+ " "+ BondsData.get(i)[1]);
+			
+		
 			if(BondsData.get(i)[0] == IDnumber || BondsData.get(i)[1] == IDnumber){
-
+				System.out.println("added " + IDnumber);
 				int [] d= new int[1];
 				d[0]=i;
 				LL.add(d);
@@ -162,7 +162,7 @@ public class StructureOrganizer {
 	
 	
 	
-	public void getBondGeometry(int ID, int numBonds){
+	public void getBondGeometry(int ID, int numBonds, int Key){
 		
 		int[] bond = CalculateHybridization(ID);
 		
@@ -174,14 +174,15 @@ public class StructureOrganizer {
 		}
 		for(int i = 0; i < bond.length; i++){ //set the start point of each bond
 			//to be the location of the atom 
-			if(BondsData.get(bond[i])[6] == AtomsData.get(ID)[3]&&
-			   BondsData.get(bond[i])[7] == AtomsData.get(ID)[4]&&
-			   BondsData.get(bond[i])[8] == AtomsData.get(ID)[5]){
+			System.out.println("ID is: " + AtomsData.get(Key)[3]);
+			if(BondsData.get(bond[i])[6] == AtomsData.get(Key)[3]&&
+			   BondsData.get(bond[i])[7] == AtomsData.get(Key)[4]&&
+			   BondsData.get(bond[i])[8] == AtomsData.get(Key)[5]){
 				
 			}else{
-			BondsData.get(bond[i])[3] = AtomsData.get(ID)[3];
-			BondsData.get(bond[i])[4] = AtomsData.get(ID)[4];
-			BondsData.get(bond[i])[5] = AtomsData.get(ID)[5];
+			BondsData.get(bond[i])[3] = AtomsData.get(Key)[3];
+			BondsData.get(bond[i])[4] = AtomsData.get(Key)[4];
+			BondsData.get(bond[i])[5] = AtomsData.get(Key)[5];
 			}
 		}
 		if(numBonds == 0){ //if there are currently no bonds on the screen
