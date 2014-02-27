@@ -35,11 +35,21 @@ public class JOGLRenderer extends Renderer {
 		}
 		*/
 		
+		//not setting 3rd atom 
+		for(int i = 0; i < 3;i++){
+		System.out.println(StructureOrganizer.AtomsData.get(i)[3]);
+		}
+		for(int i = 0; i < 2; i++){
+			System.out.println(StructureOrganizer.BondsData.get(i)[3] + " "+ 
+					StructureOrganizer.BondsData.get(i)[6]);
+		}
+		System.out.println(StructureOrganizer.BondsData.get(0)[6]);
+		System.out.println(StructureOrganizer.BondsData.get(1)[6]);
 
-
+		
 		degreesOfRotation = 0;
-		basicLight = new Light(gl);
-		basicLight.enable();
+		//basicLight = new Light(gl);
+		//basicLight.enable();
 	}
 
 	public void display() {
@@ -49,17 +59,19 @@ public class JOGLRenderer extends Renderer {
 		
 		//draw atoms
 		for(int i = 0; i < StructureOrganizer.AtomsData.size(); i++){
+			//System.out.println(StructureOrganizer.AtomsData.get(i)[3]);
 			gl.glPushMatrix();{
 			gl.glTranslated(StructureOrganizer.AtomsData.get(i)[3], 
 					StructureOrganizer.AtomsData.get(i)[4]
 					, StructureOrganizer.AtomsData.get(i)[5]);
-			glut.glutWireSphere(1,5,5);
+			glut.glutWireSphere(0.2,10,10);
 			}
 			gl.glPopMatrix();
 
 			
 			
 		}
+
 		//draw bonds
 		for(int i = 0; i < StructureOrganizer.BondsData.size(); i++){
 			   gl.glBegin (GL.GL_LINES);
