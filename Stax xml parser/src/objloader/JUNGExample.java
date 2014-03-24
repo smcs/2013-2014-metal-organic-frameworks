@@ -36,13 +36,15 @@ public class JUNGExample {
 		//convert nodes from parser into JUNGatoms preserving the keys 
 		for (Integer key : p.return_nodes().keySet()) {
 			
-		   switch(p.return_nodes().get(key).getID()){
+		   System.out.println(p.return_nodes().get(key).getElement()); 
+		   switch(p.return_nodes().get(key).getElement()){
 		   
-		   case(12):
+		   
+		   case(6):
 			   atoms.put(key, new JUNGatom("Carbon","C", 12.0107));
 		   break; 
 		   
-		   case(16):
+		   case(8):
 			   atoms.put(key, new JUNGatom("Oxygen", "O", 15.9994)); 
 		   break; 
 		   }
@@ -50,8 +52,9 @@ public class JUNGExample {
 		//add weights for each bond
 		for (Integer key : p.return_bonds().keySet()) {
 			//weight from beginning to end
+			System.out.println(atoms.get(3));
 			carJUNGbondioxide.addEdge(new JUNGbond(atoms.get(p.return_bonds().get(key).getB()),
-					atoms.get(p.return_bonds().get(key).getE())),
+					atoms.get(p.return_bonds().get(key).getE()),3),
 					atoms.get(p.return_bonds().get(key).getB()),
 					atoms.get(p.return_bonds().get(key).getE()), EdgeType.DIRECTED);
 			
@@ -59,6 +62,7 @@ public class JUNGExample {
 					atoms.get(p.return_bonds().get(key).getB())),
 					atoms.get(p.return_bonds().get(key).getE()),
 					atoms.get(p.return_bonds().get(key).getB()), EdgeType.DIRECTED);
+			
 		}
 		
 
