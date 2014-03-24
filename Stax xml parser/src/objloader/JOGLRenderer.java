@@ -35,9 +35,11 @@ public class JOGLRenderer extends Renderer {
 		}
 		*/
 		
-		//not setting 3rd atom 
+		
 		for(int i = 0; i < 3;i++){
-		System.out.println(StructureOrganizer.AtomsData.get(i)[3]);
+		System.out.println("Atom x: " + StructureOrganizer.AtomsData.get(i)[3]);
+		System.out.println("Atom y: " + StructureOrganizer.AtomsData.get(i)[4]);
+		System.out.println("Atom z: " + StructureOrganizer.AtomsData.get(i)[5]);
 		}
 		for(int i = 0; i < 2; i++){
 			System.out.println(StructureOrganizer.BondsData.get(i)[3] + " "+ 
@@ -53,7 +55,7 @@ public class JOGLRenderer extends Renderer {
 	}
 
 	public void display() {
-		glu.gluLookAt(0, 0, 5, 0, 0, 0, 0, 1, 0);
+		glu.gluLookAt(10, 10, 20, 10, 10, 10, 0, 1, 0);
 		gl.glRotatef(degreesOfRotation++, 1, 1, 0);
 		//place(0,0,0,0);
 		
@@ -81,6 +83,7 @@ public class JOGLRenderer extends Renderer {
 			   gl.glVertex3f (StructureOrganizer.BondsData.get(i)[6], 
 					   StructureOrganizer.BondsData.get(i)[7],
 					   StructureOrganizer.BondsData.get(i)[8]);
+			
 			   gl.glEnd();
 		}
 	}
