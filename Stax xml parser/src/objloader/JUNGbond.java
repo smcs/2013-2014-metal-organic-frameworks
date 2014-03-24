@@ -5,7 +5,7 @@ public class JUNGbond {
 	private double weight;
 
 	public JUNGbond(JUNGatom start, JUNGatom end) {
-		this(start, end, 1.0);
+		this(start, end, 2.0);
 	}
 
 	public JUNGbond(JUNGatom start, JUNGatom end, double weight) {

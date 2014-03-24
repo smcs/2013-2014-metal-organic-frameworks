@@ -1,5 +1,10 @@
 package objloader;
+import java.util.HashMap;
+import java.util.Vector;
+
 import javax.swing.JFrame;
+import javax.xml.stream.XMLStreamException;
+
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.graph.SparseGraph;
 import edu.uci.ics.jung.graph.util.EdgeType;
@@ -18,20 +23,44 @@ import edu.uci.ics.jung.visualization.renderers.Renderer.VertexLabel.Position;
  */
 
 public class JUNGExample {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws XMLStreamException, Exception {
+		
 		/* define our basic graph made of JUNGatoms and JUNGbonds */
 		Graph<JUNGatom, JUNGbond> carJUNGbondioxide = new SparseGraph<JUNGatom, JUNGbond>();
-
-		/* define a few handy JUNGatoms */
-		JUNGatom carbon = new JUNGatom("Carbon", "C", 12.0107);
-		JUNGatom oxygen1 = new JUNGatom("Oxygen", "O", 15.9994);
-		JUNGatom oxygen2 = new JUNGatom(oxygen1);
-
-		/* add the JUNGatoms (and dynamically created JUNGbonds) to the graph */
-		carJUNGbondioxide.addEdge(new JUNGbond(carbon, oxygen1), carbon, oxygen1, EdgeType.DIRECTED);
-		carJUNGbondioxide.addEdge(new JUNGbond(oxygen1, carbon), oxygen1, carbon, EdgeType.DIRECTED);
-		carJUNGbondioxide.addEdge(new JUNGbond(carbon, oxygen2), carbon, oxygen2, EdgeType.DIRECTED);
-		carJUNGbondioxide.addEdge(new JUNGbond(oxygen2, carbon), oxygen2, carbon, EdgeType.DIRECTED);
+		
+		//get molecule data from parser
+		parser p = new parser();
+		Vector<JUNGbond> bonds = new Vector<JUNGbond>(); 
+		HashMap<Integer ,JUNGatom> atoms = new HashMap<Integer,JUNGatom>(); 
+		
+		//convert nodes from parser into JUNGatoms preserving the keys 
+		for (Integer key : p.return_nodes().keySet()) {
+			
+		   switch(p.return_nodes().get(key).getID()){
+		   
+		   case(12):
+			   atoms.put(key, new JUNGatom("Carbon","C", 12.0107));
+		   break; 
+		   
+		   case(16):
+			   atoms.put(key, new JUNGatom("Oxygen", "O", 15.9994)); 
+		   break; 
+		   }
+		}
+		//add weights for each bond
+		for (Integer key : p.return_bonds().keySet()) {
+			//weight from beginning to end
+			carJUNGbondioxide.addEdge(new JUNGbond(atoms.get(p.return_bonds().get(key).getB()),
+					atoms.get(p.return_bonds().get(key).getE())),
+					atoms.get(p.return_bonds().get(key).getB()),
+					atoms.get(p.return_bonds().get(key).getE()), EdgeType.DIRECTED);
+			
+			carJUNGbondioxide.addEdge(new JUNGbond(atoms.get(p.return_bonds().get(key).getE()),
+					atoms.get(p.return_bonds().get(key).getB())),
+					atoms.get(p.return_bonds().get(key).getE()),
+					atoms.get(p.return_bonds().get(key).getB()), EdgeType.DIRECTED);
+		}
+		
 
 		/* choose a basic layout for our graph */
 		Layout<JUNGatom, JUNGbond> layout = new FRLayout<JUNGatom, JUNGbond>(carJUNGbondioxide);

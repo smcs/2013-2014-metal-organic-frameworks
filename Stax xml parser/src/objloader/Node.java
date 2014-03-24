@@ -5,11 +5,6 @@ public class Node {
 	/**
 	 * ID, Element
 	 */
-	
-	/*
-	 * 1. Calculate hybridization on each atom= number of bonds attached to each atom 
-	 */
-
 	private int id;
 	private int Element;
 
