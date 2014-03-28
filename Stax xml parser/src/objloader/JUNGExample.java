@@ -1,6 +1,10 @@
 package objloader;
+import java.awt.Dimension;
+import java.awt.Point;
+import java.awt.geom.Point2D;
 import java.util.HashMap;
 import java.util.Vector;
+
 
 import javax.swing.JFrame;
 import javax.xml.stream.XMLStreamException;
@@ -11,6 +15,7 @@ import edu.uci.ics.jung.graph.util.EdgeType;
 import edu.uci.ics.jung.algorithms.layout.FRLayout;
 import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.visualization.BasicVisualizationServer;
+import edu.uci.ics.jung.visualization.control.CrossoverScalingControl;
 import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
 import edu.uci.ics.jung.visualization.renderers.Renderer.VertexLabel.Position;
 
@@ -50,28 +55,38 @@ public class JUNGExample {
 		   }
 		}
 		//add weights for each bond
+		JUNGbond J; 
 		for (Integer key : p.return_bonds().keySet()) {
 			//weight from beginning to end
 			System.out.println(atoms.get(3));
-			carJUNGbondioxide.addEdge(new JUNGbond(atoms.get(p.return_bonds().get(key).getB()),
-					atoms.get(p.return_bonds().get(key).getE()),3),
+			
+			J = new JUNGbond(atoms.get(p.return_bonds().get(key).getB()),
+					atoms.get(p.return_bonds().get(key).getE()));
+			carJUNGbondioxide.addEdge(J,
 					atoms.get(p.return_bonds().get(key).getB()),
 					atoms.get(p.return_bonds().get(key).getE()), EdgeType.DIRECTED);
 			
-			carJUNGbondioxide.addEdge(new JUNGbond(atoms.get(p.return_bonds().get(key).getE()),
-					atoms.get(p.return_bonds().get(key).getB())),
+			
+			J = new JUNGbond(atoms.get(p.return_bonds().get(key).getE()),
+					atoms.get(p.return_bonds().get(key).getB())); 
+			carJUNGbondioxide.addEdge(J,
 					atoms.get(p.return_bonds().get(key).getE()),
 					atoms.get(p.return_bonds().get(key).getB()), EdgeType.DIRECTED);
+					
 			
 		}
 		
 
 		/* choose a basic layout for our graph */
 		Layout<JUNGatom, JUNGbond> layout = new FRLayout<JUNGatom, JUNGbond>(carJUNGbondioxide);
+		layout.setSize(new Dimension(500,500));
 
 		/* connect the layout to a visualization engine */
 		BasicVisualizationServer<JUNGatom, JUNGbond> bvs = new BasicVisualizationServer<JUNGatom, JUNGbond>(layout);
-
+		
+		Point2D midpoint = new Point(250,250); 
+		CrossoverScalingControl scaler = new CrossoverScalingControl();
+		scaler.scale(bvs, (float) 0.5, midpoint); 
 		/* set up some labeling for convenience */
 		bvs.getRenderContext().setVertexLabelTransformer(new ToStringLabeller());
 		bvs.getRenderer().getVertexLabelRenderer().setPosition(Position.CNTR);
