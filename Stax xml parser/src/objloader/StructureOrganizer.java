@@ -31,10 +31,6 @@ public class StructureOrganizer {
 		System.out.println(AtomsData.get(1)[0]);
 		System.out.println(AtomsData.get(2)[0]);
 		
-		
-		
-		
-		
 		int Count = 0;
 		while(complete == false){ //while there is still unfilled data 
 
