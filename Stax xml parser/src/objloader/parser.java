@@ -39,6 +39,7 @@ public class parser {
 		// XMLStreamREader
 		// and an XMLEventReader." In other words, this defines the StAX parser.
 
+		
 		FileInputStream fis = new FileInputStream("xml/Terephthalic acid.cdxml");
 		// The InputStream reads a cdxml file.
 		XMLStreamReader reader = factory.createXMLStreamReader(fis);

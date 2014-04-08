@@ -37,7 +37,7 @@ public class JUNGExample {
 		parser p = new parser();
 		Vector<JUNGbond> bonds = new Vector<JUNGbond>(); 
 		HashMap<Integer ,JUNGatom> atoms = new HashMap<Integer,JUNGatom>(); 
-		
+		/*
 		//convert nodes from parser into JUNGatoms preserving the keys 
 		for (Integer key : p.return_nodes().keySet()) {
 			
@@ -62,6 +62,7 @@ public class JUNGExample {
 			
 			J = new JUNGbond(atoms.get(p.return_bonds().get(key).getB()),
 					atoms.get(p.return_bonds().get(key).getE()));
+		    
 			carJUNGbondioxide.addEdge(J,
 					atoms.get(p.return_bonds().get(key).getB()),
 					atoms.get(p.return_bonds().get(key).getE()), EdgeType.DIRECTED);
@@ -75,11 +76,21 @@ public class JUNGExample {
 					
 			
 		}
+		*/
+		JUNGatom h = new JUNGatom("hydrogen","H",0.5); 
+		JUNGatom c = new JUNGatom("carbon","C",12); 
+		JUNGatom h2 = new JUNGatom("hydrogen2","H2", 3); 
+		carJUNGbondioxide.addVertex(h);
+		carJUNGbondioxide.addVertex(c);
+		carJUNGbondioxide.addVertex(h2); 
 		
-
+		//JUNGbond j = new JUNGbond(h,c,4);
+		carJUNGbondioxide.addEdge(new JUNGbond(h,c), h, c, EdgeType.UNDIRECTED); 
+		carJUNGbondioxide.addEdge(new JUNGbond(c,h2), c, h2, EdgeType.DIRECTED);
 		/* choose a basic layout for our graph */
 		Layout<JUNGatom, JUNGbond> layout = new FRLayout<JUNGatom, JUNGbond>(carJUNGbondioxide);
 		layout.setSize(new Dimension(500,500));
+		System.out.println("# bonds is: " + carJUNGbondioxide.getEdges().size());
 
 		/* connect the layout to a visualization engine */
 		BasicVisualizationServer<JUNGatom, JUNGbond> bvs = new BasicVisualizationServer<JUNGatom, JUNGbond>(layout);
