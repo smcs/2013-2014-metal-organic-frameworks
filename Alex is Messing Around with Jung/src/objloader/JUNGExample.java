@@ -27,86 +27,63 @@ import edu.uci.ics.jung.visualization.renderers.Renderer.VertexLabel.Position;
  * @author SethBattis@stmarksschool.org
  */
 
-public class JUNGExample {
-	public static void main(String[] args) throws XMLStreamException, Exception {
-		
-		/* define our basic graph made of JUNGatoms and JUNGbonds */
-		Graph<JUNGatom, JUNGbond> carJUNGbondioxide = new SparseGraph<JUNGatom, JUNGbond>();
-		
-		//get molecule data from parser
-		parser p = new parser();
-		Vector<JUNGbond> bonds = new Vector<JUNGbond>(); 
-		HashMap<Integer ,JUNGatom> atoms = new HashMap<Integer,JUNGatom>(); 
-		/*
-		//convert nodes from parser into JUNGatoms preserving the keys 
-		for (Integer key : p.return_nodes().keySet()) {
-			
-		   System.out.println(p.return_nodes().get(key).getElement()); 
-		   switch(p.return_nodes().get(key).getElement()){
-		   
-		   
-		   case(6):
-			   atoms.put(key, new JUNGatom("Carbon","C", 12.0107));
-		   break; 
-		   
-		   case(8):
-			   atoms.put(key, new JUNGatom("Oxygen", "O", 15.9994)); 
-		   break; 
-		   }
-		}
-		//add weights for each bond
-		JUNGbond J; 
-		for (Integer key : p.return_bonds().keySet()) {
-			//weight from beginning to end
-			System.out.println(atoms.get(3));
-			
-			J = new JUNGbond(atoms.get(p.return_bonds().get(key).getB()),
-					atoms.get(p.return_bonds().get(key).getE()));
-		    
-			carJUNGbondioxide.addEdge(J,
-					atoms.get(p.return_bonds().get(key).getB()),
-					atoms.get(p.return_bonds().get(key).getE()), EdgeType.DIRECTED);
-			
-			
-			J = new JUNGbond(atoms.get(p.return_bonds().get(key).getE()),
-					atoms.get(p.return_bonds().get(key).getB())); 
-			carJUNGbondioxide.addEdge(J,
-					atoms.get(p.return_bonds().get(key).getE()),
-					atoms.get(p.return_bonds().get(key).getB()), EdgeType.DIRECTED);
-					
-			
-		}
-		*/
-		JUNGatom h = new JUNGatom("hydrogen","H",0.5); 
-		JUNGatom c = new JUNGatom("carbon","C",12); 
-		JUNGatom h2 = new JUNGatom("hydrogen2","H2", 3); 
-		carJUNGbondioxide.addVertex(h);
-		carJUNGbondioxide.addVertex(c);
-		carJUNGbondioxide.addVertex(h2); 
-		
-		//JUNGbond j = new JUNGbond(h,c,4);
-		carJUNGbondioxide.addEdge(new JUNGbond(h,c), h, c, EdgeType.UNDIRECTED); 
-		carJUNGbondioxide.addEdge(new JUNGbond(c,h2), c, h2, EdgeType.DIRECTED);
-		/* choose a basic layout for our graph */
-		Layout<JUNGatom, JUNGbond> layout = new FRLayout<JUNGatom, JUNGbond>(carJUNGbondioxide);
-		layout.setSize(new Dimension(500,500));
-		System.out.println("# bonds is: " + carJUNGbondioxide.getEdges().size());
+public class JUNGExample{
+	/* define our basic graph made of JUNGatoms and JUNGbonds */
+	public static Graph<JUNGatom, JUNGbond> g = new SparseGraph<JUNGatom, JUNGbond>();
+	private Vector<JUNGbond> bonds = new Vector<JUNGbond>(); 
+	private HashMap<Integer ,JUNGatom> atoms = new HashMap<Integer,JUNGatom>();
+	private parser p = new parser(); 
 
-		/* connect the layout to a visualization engine */
-		BasicVisualizationServer<JUNGatom, JUNGbond> bvs = new BasicVisualizationServer<JUNGatom, JUNGbond>(layout);
+	
+	public JUNGExample() throws XMLStreamException, Exception{
 		
-		Point2D midpoint = new Point(250,250); 
-		CrossoverScalingControl scaler = new CrossoverScalingControl();
-		scaler.scale(bvs, (float) 0.5, midpoint); 
-		/* set up some labeling for convenience */
-		bvs.getRenderContext().setVertexLabelTransformer(new ToStringLabeller());
-		bvs.getRenderer().getVertexLabelRenderer().setPosition(Position.CNTR);
-
-		/* set up a Swing JFrame to present the viewer */
-		JFrame frame = new JFrame("Spring Layout View");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().add(bvs);
-		frame.pack();
-		frame.setVisible(true);
+		//add nodes from the parser with 
+		for (Integer key : p.nodes.keySet()){
+			atoms.put(key, new JUNGatom(p.nodes.get(key).getName(),p.nodes.get(key).getName()
+					,p.nodes.get(key).getElement()));
+			g.addVertex(atoms.get(key)); 
+		}
+		
+		//add edges of bonds from the parser 
+		for (Integer key : p.bonds.keySet()){
+			g.addEdge(new JUNGbond(atoms.get(p.bonds.get(key).getB()),
+					atoms.get(p.bonds.get(key).getE()), 20)
+					, atoms.get(p.bonds.get(key).getB()), atoms.get(p.bonds.get(key).getE()),
+					EdgeType.UNDIRECTED); 
+		}
+		
+		for (Integer key : p.bonds.keySet()){
+			for (Integer key2 : p.bonds.keySet()){
+				//if the two bonds start at the same element 
+				if(p.bonds.get(key).getB() == p.bonds.get(key2).getE()){
+					g.addEdge(new JUNGbond(atoms.get(p.bonds.get(key).getE()),
+							atoms.get(p.bonds.get(key2).getB()), 500)
+							, atoms.get(p.bonds.get(key).getE()), atoms.get(p.bonds.get(key2).getB()),
+							EdgeType.UNDIRECTED); 
+				}
+				if(p.bonds.get(key).getE() == p.bonds.get(key2).getE()){
+					g.addEdge(new JUNGbond(atoms.get(p.bonds.get(key).getB()),
+							atoms.get(p.bonds.get(key2).getB()), 500)
+							, atoms.get(p.bonds.get(key).getB()), atoms.get(p.bonds.get(key2).getB()),
+							EdgeType.UNDIRECTED); 
+				}
+				if(p.bonds.get(key).getB() == p.bonds.get(key2).getB()){
+					g.addEdge(new JUNGbond(atoms.get(p.bonds.get(key).getE()),
+							atoms.get(p.bonds.get(key2).getE()), 500)
+							, atoms.get(p.bonds.get(key).getE()), atoms.get(p.bonds.get(key2).getE()),
+							EdgeType.UNDIRECTED); 
+				}
+				if(p.bonds.get(key).getE() == p.bonds.get(key2).getB()){
+					g.addEdge(new JUNGbond(atoms.get(p.bonds.get(key).getB()),
+							atoms.get(p.bonds.get(key2).getE()), 500)
+							, atoms.get(p.bonds.get(key).getB()), atoms.get(p.bonds.get(key2).getE()),
+							EdgeType.UNDIRECTED); 
+				}
+			}
+		}
+		
+		System.out.println("# bonds is: " + g.getEdges().size());
+		
+ 
 	}
 }

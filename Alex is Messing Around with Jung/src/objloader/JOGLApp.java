@@ -1,28 +1,35 @@
 package objloader;
 
-import javax.swing.JComponent;
-import javax.vecmath.Point3f;
-import javax.xml.stream.XMLStreamException;
+import java.awt.Frame;
 
-import simplerjogl.Frame;
+import javax.swing.JFrame;
+
+
 
 
 
 public class JOGLApp
 {
 	 
-	public static void main (String[] args) throws XMLStreamException, Exception
+	public static void main (String[] args) 
 	{
 		
-		parser p = new parser();
-		JOGLRenderer renderer = new JOGLRenderer ();
+		//parser p = new parser();
+		//JOGLRenderer renderer = new JOGLRenderer ();
 		//StructureOrganizer S = new StructureOrganizer(p);
-		//GraphDemo g = new GraphDemo(); 
+		GraphDemo g = new GraphDemo(); 
 		//JUNGExample j = new JUNGExample(); 
 		
-		Frame frame = Frame.createFrame ("SimplerJOGL App", false);
-		frame.addGLEventListener (renderer);
-		frame.start ();
+		JFrame frame = new JFrame();
+		frame.add(g);
+		frame.setSize(500,500);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setVisible(true); 
+		
+		
+		
+		//frame.addGLEventListener (renderer);
+		//frame.start ();
 		
 		
 	}

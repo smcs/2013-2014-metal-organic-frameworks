@@ -1,38 +1,63 @@
 package objloader;
 
 import java.awt.BorderLayout;
+import java.awt.Paint;
+import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
+import javax.media.j3d.Appearance;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.transform.ErrorListener;
+import javax.xml.transform.Result;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.URIResolver;
 
+import edu.uci.ics.jung.*; 
 import edu.uci.ics.jung.algorithms.layout3d.Layout;
 import edu.uci.ics.jung.algorithms.layout3d.SpringLayout;
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.graph.util.TestGraphs;
+import edu.uci.ics.jung.visualization.control.*;
 import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
 import edu.uci.ics.jung.visualization3d.VisualizationViewer;
+
 
 public class GraphDemo extends JPanel {
 	Graph<String, Number> demoGraph = TestGraphs.getDemoGraph();
 	Graph<String, Number> oneComponentGraph = TestGraphs.getOneComponentGraph();
-	Map<String, Graph<String, Number>> graphMap = new HashMap<String, Graph<String, Number>>();
+	Map<String, Graph<JUNGatom, JUNGbond>> graphMap = new HashMap<String, Graph<JUNGatom, JUNGbond>>();
 	JComboBox layoutBox, graphBox;
+	JUNGExample j = new JUNGExample(); 
+	private org.apache.commons.collections15.Transformer<JUNGbond, Appearance> edgepaint;
 	
-	public GraphDemo() {
+	public GraphDemo() throws XMLStreamException, Exception{
 		super(new BorderLayout());
-		final VisualizationViewer<String, Number> vv = new VisualizationViewer<String, Number>();
-		Graph<String, Number> graph = TestGraphs.getDemoGraph();
-		vv.getRenderContext().setVertexStringer(new ToStringLabeller<String>());
-		Layout<String, Number> layout = new SpringLayout<String, Number>(graph);
+
+		VisualizationViewer<JUNGatom, JUNGbond> vv = new VisualizationViewer<JUNGatom, JUNGbond>();
+		//Graph<String, Number> graph = TestGraphs.getDemoGraph();
+		Graph<JUNGatom, JUNGbond> graph = j.g; 
+		vv.getRenderContext().setVertexStringer(new ToStringLabeller<JUNGatom>());
+		vv.getRenderContext().setEdgeAppearanceTransformer(edgepaint); 
+		Layout<JUNGatom, JUNGbond> layout = new SpringLayout(j.g,new BondtoEdgeTransformer());
 		vv.setGraphLayout(layout);
-		
+		DefaultModalGraphMouse gm = new DefaultModalGraphMouse();
+		gm.setMode(ModalGraphMouse.Mode.TRANSFORMING);
+		vv.setGraphMouse(gm); 
 		add(vv);
+		edgepaint = new EdgetoColorTransformer();
+
+
 	}
 	
-	public static void main(String argv[]) {
+	
+	public static void main(String argv[]) throws XMLStreamException, Exception {
 		final GraphDemo demo = new GraphDemo();
 		JFrame f = new JFrame();
 		f.add(demo);
