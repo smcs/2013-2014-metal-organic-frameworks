@@ -55,35 +55,99 @@ public class JUNGExample{
 		for (Integer key : p.bonds.keySet()){
 			for (Integer key2 : p.bonds.keySet()){
 				//if the two bonds start at the same element 
-				if(p.bonds.get(key).getB() == p.bonds.get(key2).getE()){
+				if(p.bonds.get(key).getB() == p.bonds.get(key2).getE() &&
+						!checkLoop(p.bonds.get(key).getE(),p.bonds.get(key2).getB())){
 					g.addEdge(new JUNGbond(atoms.get(p.bonds.get(key).getE()),
-							atoms.get(p.bonds.get(key2).getB()), 500)
+							atoms.get(p.bonds.get(key2).getB()), 100)
 							, atoms.get(p.bonds.get(key).getE()), atoms.get(p.bonds.get(key2).getB()),
 							EdgeType.UNDIRECTED); 
 				}
-				if(p.bonds.get(key).getE() == p.bonds.get(key2).getE()){
+				if(p.bonds.get(key).getE() == p.bonds.get(key2).getE() &&
+						!checkLoop(p.bonds.get(key).getB(),p.bonds.get(key2).getB())){
 					g.addEdge(new JUNGbond(atoms.get(p.bonds.get(key).getB()),
-							atoms.get(p.bonds.get(key2).getB()), 500)
+							atoms.get(p.bonds.get(key2).getB()), 100)
 							, atoms.get(p.bonds.get(key).getB()), atoms.get(p.bonds.get(key2).getB()),
 							EdgeType.UNDIRECTED); 
 				}
-				if(p.bonds.get(key).getB() == p.bonds.get(key2).getB()){
+				if(p.bonds.get(key).getB() == p.bonds.get(key2).getB() &&
+						!checkLoop(p.bonds.get(key).getE(),p.bonds.get(key2).getE())){
 					g.addEdge(new JUNGbond(atoms.get(p.bonds.get(key).getE()),
-							atoms.get(p.bonds.get(key2).getE()), 500)
+							atoms.get(p.bonds.get(key2).getE()), 100)
 							, atoms.get(p.bonds.get(key).getE()), atoms.get(p.bonds.get(key2).getE()),
 							EdgeType.UNDIRECTED); 
 				}
-				if(p.bonds.get(key).getE() == p.bonds.get(key2).getB()){
+				if(p.bonds.get(key).getE() == p.bonds.get(key2).getB() &&
+						!checkLoop(p.bonds.get(key).getB(),p.bonds.get(key2).getE())){
 					g.addEdge(new JUNGbond(atoms.get(p.bonds.get(key).getB()),
-							atoms.get(p.bonds.get(key2).getE()), 500)
+							atoms.get(p.bonds.get(key2).getE()), 100)
 							, atoms.get(p.bonds.get(key).getB()), atoms.get(p.bonds.get(key2).getE()),
 							EdgeType.UNDIRECTED); 
 				}
 			}
 		}
+		 
 		
 		System.out.println("# bonds is: " + g.getEdges().size());
 		
  
+	}
+
+
+	private boolean checkLoop(Integer key, Integer key2) {
+		System.out.println("I've been called");
+		int[][] connected = new int[40][40];
+		
+		for (Integer key3 : p.bonds.keySet()){
+			connected[p.bonds.get(key3).getB()][p.bonds.get(key3).getE()] = 1; 
+			connected[p.bonds.get(key3).getE()][p.bonds.get(key3).getB()] = 1; 
+		}
+		int count = 0; 
+		while(count > 0){
+			for (Integer key3 : p.nodes.keySet()){
+				for (Integer key4 : p.nodes.keySet()){
+					for (Integer key5 : p.nodes.keySet()){
+						if(connected[key3][key4] == 1 && connected[key4][key5] == 1){
+							if(connected[key3][key5] == 1){
+								count++; 
+							}
+							connected[key3][key5] = 1;
+							connected[key5][key3] = 1; 
+						}
+				}
+			}
+		}
+		}
+		boolean result; 
+		if(connected[key][key] == 1 && connected[key2][key2] == 1){
+			result = true; 
+		}else{
+			result = false; 
+		}
+		result = false; 
+		for(Integer key3 : p.bonds.keySet()){
+			if(key == p.bonds.get(key3).getB()){
+				if(p.nodes.get(key).getElement() != 6){
+					result = true; 
+				}
+			}
+			if(key2 == p.bonds.get(key3).getB()){
+				if(p.nodes.get(key2).getElement() != 6){
+					result = true; 
+				}
+			}
+		}
+		System.out.println(key);
+		System.out.println(key2); 
+		System.out.println("The first element is: "+ p.nodes.get(key).getElement());
+		System.out.println("The second element is: "+ p.nodes.get(key2).getElement());
+		
+		if(p.nodes.get(key).getElement() == 6 && p.nodes.get(key2).getElement() == 6){
+			System.out.println("The result is true");
+			return true;
+		}else{
+			System.out.println("The result is false");
+			return false;
+		}
+		 
 	}
 }

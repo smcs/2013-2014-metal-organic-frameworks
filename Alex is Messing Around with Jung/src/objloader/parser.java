@@ -40,7 +40,7 @@ public class parser {
 		// and an XMLEventReader." In other words, this defines the StAX parser.
 
 		
-		FileInputStream fis = new FileInputStream("xml/carbon dioxide .cdxml");
+		FileInputStream fis = new FileInputStream("xml/terephthalic acid.cdxml");
 		// The InputStream reads a cdxml file.
 		XMLStreamReader reader = factory.createXMLStreamReader(fis);
 		// This iterates through the XML file using next().
@@ -60,7 +60,7 @@ public class parser {
 					// Access the value of "id" of this node
 					// id: A unique identifier for an object, used when other
 					// objects refer to it.
-					System.out.println(reader.getAttributeValue(null, "Element"));
+					System.out.println("Attr. Reader " + reader.getAttributeValue(null, "Element"));
 					if(reader.getAttributeValue(null, "Element") == null){
 						currNode.setElement(6);
 					}else{
