@@ -35,11 +35,13 @@ public class GraphDemo extends JPanel {
 	Map<String, Graph<JUNGatom, JUNGbond>> graphMap = new HashMap<String, Graph<JUNGatom, JUNGbond>>();
 	JComboBox layoutBox, graphBox;
 	JUNGExample j = new JUNGExample();
+	VisualizationViewer<JUNGatom, JUNGbond> vv;
 
 	public GraphDemo() throws XMLStreamException, Exception {
 		super(new BorderLayout());
+		
 
-		VisualizationViewer<JUNGatom, JUNGbond> vv = new VisualizationViewer<JUNGatom, JUNGbond>();
+		 vv = new VisualizationViewer<JUNGatom, JUNGbond>();
 		// Graph<String, Number> graph = TestGraphs.getDemoGraph();
 
 		// vv.getRenderContext().setEdgeAppearanceTransformer(new
@@ -60,10 +62,5 @@ public class GraphDemo extends JPanel {
 
 	public static void main(String argv[]) throws XMLStreamException, Exception {
 		final GraphDemo demo = new GraphDemo();
-		JFrame f = new JFrame();
-		f.add(demo);
-		f.setSize(600, 600);
-		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.setVisible(true);
 	}
 }
