@@ -34,8 +34,7 @@ public class JOGLRenderer extends Renderer {
 			e.printStackTrace();
 		}
 		*/
-		
-		
+		/*
 		for(int i = 0; i < 3;i++){
 		System.out.println("Atom x: " + StructureOrganizer.AtomsData.get(i)[3]);
 		System.out.println("Atom y: " + StructureOrganizer.AtomsData.get(i)[4]);
@@ -53,13 +52,14 @@ public class JOGLRenderer extends Renderer {
 		//basicLight = new Light(gl);
 		//basicLight.enable();
 	}
-
+	*/
 	public void display() {
 		glu.gluLookAt(10, 10, 20, 10, 10, 10, 0, 1, 0);
 		gl.glRotatef(degreesOfRotation++, 1, 1, 0);
 		//place(0,0,0,0);
-		
+		glut.glutWireSphere(0.2,10,10);
 		//draw atoms
+		/*
 		for(int i = 0; i < StructureOrganizer.AtomsData.size(); i++){
 			//System.out.println(StructureOrganizer.AtomsData.get(i)[3]);
 			gl.glPushMatrix();{
@@ -69,11 +69,12 @@ public class JOGLRenderer extends Renderer {
 			glut.glutWireSphere(0.2,10,10);
 			}
 			gl.glPopMatrix();
+			*/ 
 
 			
 			
 		}
-
+		/*
 		//draw bonds
 		for(int i = 0; i < StructureOrganizer.BondsData.size(); i++){
 			   gl.glBegin (GL.GL_LINES);
@@ -86,9 +87,11 @@ public class JOGLRenderer extends Renderer {
 			
 			   gl.glEnd();
 		}
-	}
+		*/ 
+	
 	
 	//public void place(int atomNumber,float dx,float dy,float dz){
 	//	suzanne.draw();
 	//}
-}
+}}
+		
