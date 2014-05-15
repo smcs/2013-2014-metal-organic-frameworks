@@ -1,5 +1,7 @@
 package objloader;
 
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -11,13 +13,15 @@ import javax.swing.JPanel;
 import javax.xml.stream.XMLStreamException;
 
 public class Visual {
-	private JFrame frame;
+	private static JFrame frame;
 	private JButton b1; 
+	private static JPanel p,p2;
+	private static GraphDemo g; 
 	
 	public Visual() throws XMLStreamException, Exception{
-		 GraphDemo g = new GraphDemo(); 
+		 g = new GraphDemo(); 
 			
-	     JFrame frame = new JFrame();
+	     frame = new JFrame();
 	     frame.setSize(500,500);
 	     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);    
 	     
@@ -31,13 +35,15 @@ public class Visual {
 	            public void actionPerformed(ActionEvent e)
 	            {
 	                //Execute when button is pressed
-	                System.out.println("You clicked the button");
+	                frame.add(g.vv);
 	            }
 	        });   
 	     
-	     
 	     frame.add(g.vv);
-	     frame.add(b1);
+	     
+	     //frame.add(b1);
+	     JFrame p = new JFrame();
+	     JFrame p2 = new JFrame(); 
 	     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
 	     frame.setVisible(true); 
 	}

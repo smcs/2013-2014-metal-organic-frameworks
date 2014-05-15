@@ -58,28 +58,28 @@ public class JUNGExample{
 				if(p.bonds.get(key).getB() == p.bonds.get(key2).getE() &&
 						!checkLoop(p.bonds.get(key).getE(),p.bonds.get(key2).getB())){
 					g.addEdge(new JUNGbond(atoms.get(p.bonds.get(key).getE()),
-							atoms.get(p.bonds.get(key2).getB()), 100)
+							atoms.get(p.bonds.get(key2).getB()), 500)
 							, atoms.get(p.bonds.get(key).getE()), atoms.get(p.bonds.get(key2).getB()),
 							EdgeType.UNDIRECTED); 
 				}
 				if(p.bonds.get(key).getE() == p.bonds.get(key2).getE() &&
 						!checkLoop(p.bonds.get(key).getB(),p.bonds.get(key2).getB())){
 					g.addEdge(new JUNGbond(atoms.get(p.bonds.get(key).getB()),
-							atoms.get(p.bonds.get(key2).getB()), 100)
+							atoms.get(p.bonds.get(key2).getB()), 500)
 							, atoms.get(p.bonds.get(key).getB()), atoms.get(p.bonds.get(key2).getB()),
 							EdgeType.UNDIRECTED); 
 				}
 				if(p.bonds.get(key).getB() == p.bonds.get(key2).getB() &&
 						!checkLoop(p.bonds.get(key).getE(),p.bonds.get(key2).getE())){
 					g.addEdge(new JUNGbond(atoms.get(p.bonds.get(key).getE()),
-							atoms.get(p.bonds.get(key2).getE()), 100)
+							atoms.get(p.bonds.get(key2).getE()), 500)
 							, atoms.get(p.bonds.get(key).getE()), atoms.get(p.bonds.get(key2).getE()),
 							EdgeType.UNDIRECTED); 
 				}
 				if(p.bonds.get(key).getE() == p.bonds.get(key2).getB() &&
 						!checkLoop(p.bonds.get(key).getB(),p.bonds.get(key2).getE())){
 					g.addEdge(new JUNGbond(atoms.get(p.bonds.get(key).getB()),
-							atoms.get(p.bonds.get(key2).getE()), 100)
+							atoms.get(p.bonds.get(key2).getE()), 500)
 							, atoms.get(p.bonds.get(key).getB()), atoms.get(p.bonds.get(key2).getE()),
 							EdgeType.UNDIRECTED); 
 				}
