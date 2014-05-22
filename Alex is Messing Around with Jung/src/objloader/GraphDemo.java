@@ -56,7 +56,7 @@ public class GraphDemo extends JPanel {
 		// GraphMouse gm = new DefaultModalGraphMouse<JUNGatom,JUNGbond>();
 		// gm.setMode(ModalGraphMouse.Mode.TRANSFORMING);
 		// vv.setGraphMouse(gm);
-		add(vv);
+		//add(vv);
 
 	}
 

@@ -32,61 +32,141 @@ public class JUNGExample{
 	public static Graph<JUNGatom, JUNGbond> g = new SparseGraph<JUNGatom, JUNGbond>();
 	private Vector<JUNGbond> bonds = new Vector<JUNGbond>(); 
 	private HashMap<Integer ,JUNGatom> atoms = new HashMap<Integer,JUNGatom>();
-	private parser p = new parser(); 
+	private parser MyParser = new parser(); 
 
 	
 	public JUNGExample() throws XMLStreamException, Exception{
 		
 		//add nodes from the parser with 
-		for (Integer key : p.nodes.keySet()){
-			atoms.put(key, new JUNGatom(p.nodes.get(key).getName(),p.nodes.get(key).getName()
-					,p.nodes.get(key).getElement()));
+		for (Integer key : MyParser.nodes.keySet()){
+			atoms.put(key, new JUNGatom(MyParser.nodes.get(key).getName(),MyParser.nodes.get(key).getName()
+					,MyParser.nodes.get(key).getElement()));
 			g.addVertex(atoms.get(key)); 
 		}
 		
 		//add edges of bonds from the parser 
-		for (Integer key : p.bonds.keySet()){
-			g.addEdge(new JUNGbond(atoms.get(p.bonds.get(key).getB()),
-					atoms.get(p.bonds.get(key).getE()), 20)
-					, atoms.get(p.bonds.get(key).getB()), atoms.get(p.bonds.get(key).getE()),
+		for (Integer key : MyParser.bonds.keySet()){
+			g.addEdge(new JUNGbond(atoms.get(MyParser.bonds.get(key).getB()),
+					atoms.get(MyParser.bonds.get(key).getE()), 20)
+					, atoms.get(MyParser.bonds.get(key).getB()), atoms.get(MyParser.bonds.get(key).getE()),
 					EdgeType.UNDIRECTED); 
 		}
 		
-		for (Integer key : p.bonds.keySet()){
-			for (Integer key2 : p.bonds.keySet()){
+		for (Integer key : MyParser.bonds.keySet()){
+			for (Integer key2 : MyParser.bonds.keySet()){
 				//if the two bonds start at the same element 
-				if(p.bonds.get(key).getB() == p.bonds.get(key2).getE() &&
-						!checkLoop(p.bonds.get(key).getE(),p.bonds.get(key2).getB())){
-					g.addEdge(new JUNGbond(atoms.get(p.bonds.get(key).getE()),
-							atoms.get(p.bonds.get(key2).getB()), 100)
-							, atoms.get(p.bonds.get(key).getE()), atoms.get(p.bonds.get(key2).getB()),
+				if(MyParser.bonds.get(key).getB() == MyParser.bonds.get(key2).getE() &&
+						!checkLoop(MyParser.bonds.get(key).getE(),MyParser.bonds.get(key2).getB())){
+					g.addEdge(new JUNGbond(atoms.get(MyParser.bonds.get(key).getE()),
+							atoms.get(MyParser.bonds.get(key2).getB()), 100)
+							, atoms.get(MyParser.bonds.get(key).getE()), atoms.get(MyParser.bonds.get(key2).getB()),
 							EdgeType.UNDIRECTED); 
 				}
-				if(p.bonds.get(key).getE() == p.bonds.get(key2).getE() &&
-						!checkLoop(p.bonds.get(key).getB(),p.bonds.get(key2).getB())){
-					g.addEdge(new JUNGbond(atoms.get(p.bonds.get(key).getB()),
-							atoms.get(p.bonds.get(key2).getB()), 100)
-							, atoms.get(p.bonds.get(key).getB()), atoms.get(p.bonds.get(key2).getB()),
+				if(MyParser.bonds.get(key).getE() == MyParser.bonds.get(key2).getE() &&
+						!checkLoop(MyParser.bonds.get(key).getB(),MyParser.bonds.get(key2).getB())){
+					g.addEdge(new JUNGbond(atoms.get(MyParser.bonds.get(key).getB()),
+							atoms.get(MyParser.bonds.get(key2).getB()), 100)
+							, atoms.get(MyParser.bonds.get(key).getB()), atoms.get(MyParser.bonds.get(key2).getB()),
 							EdgeType.UNDIRECTED); 
 				}
-				if(p.bonds.get(key).getB() == p.bonds.get(key2).getB() &&
-						!checkLoop(p.bonds.get(key).getE(),p.bonds.get(key2).getE())){
-					g.addEdge(new JUNGbond(atoms.get(p.bonds.get(key).getE()),
-							atoms.get(p.bonds.get(key2).getE()), 100)
-							, atoms.get(p.bonds.get(key).getE()), atoms.get(p.bonds.get(key2).getE()),
+				if(MyParser.bonds.get(key).getB() == MyParser.bonds.get(key2).getB() &&
+						!checkLoop(MyParser.bonds.get(key).getE(),MyParser.bonds.get(key2).getE())){
+					g.addEdge(new JUNGbond(atoms.get(MyParser.bonds.get(key).getE()),
+							atoms.get(MyParser.bonds.get(key2).getE()), 100)
+							, atoms.get(MyParser.bonds.get(key).getE()), atoms.get(MyParser.bonds.get(key2).getE()),
 							EdgeType.UNDIRECTED); 
 				}
-				if(p.bonds.get(key).getE() == p.bonds.get(key2).getB() &&
-						!checkLoop(p.bonds.get(key).getB(),p.bonds.get(key2).getE())){
-					g.addEdge(new JUNGbond(atoms.get(p.bonds.get(key).getB()),
-							atoms.get(p.bonds.get(key2).getE()), 100)
-							, atoms.get(p.bonds.get(key).getB()), atoms.get(p.bonds.get(key2).getE()),
+				if(MyParser.bonds.get(key).getE() == MyParser.bonds.get(key2).getB() &&
+						!checkLoop(MyParser.bonds.get(key).getB(),MyParser.bonds.get(key2).getE())){
+					g.addEdge(new JUNGbond(atoms.get(MyParser.bonds.get(key).getB()),
+							atoms.get(MyParser.bonds.get(key2).getE()), 100)
+							, atoms.get(MyParser.bonds.get(key).getB()), atoms.get(MyParser.bonds.get(key2).getE()),
 							EdgeType.UNDIRECTED); 
 				}
 			}
+			
 		}
-		 
+		int[] keyBonds = new int[4];
+		int[] key2Bonds = new int[4];
+		for (Integer key : atoms.keySet()){
+			for (Integer key2 : atoms.keySet()){
+				if(atoms.get(key).getSymbol() == "C" && atoms.get(key2).getSymbol() == "C"){
+
+					int i = 0;
+					int j = 0; 
+					//+1000 corresponds to the bond beginning of the bond on the Carbon
+					for (Integer key3 : MyParser.bonds.keySet()){
+						if(MyParser.bonds.get(key3).getB() == key){
+							keyBonds[i] = key3 + 1000; 
+							i++;
+						}
+						if(MyParser.bonds.get(key3).getB() == key2){
+							key2Bonds[j] = key3 + 1000;
+							j++;
+						}
+					    if(MyParser.bonds.get(key3).getE() == key){
+					    	keyBonds[i] = key3;
+					    	i++;
+						}
+						if(MyParser.bonds.get(key3).getE() == key2){
+							key2Bonds[j] = key3;
+							j++; 
+						}
+					}
+
+				}
+
+			}
+		}
+		int b1 = 0;
+		int b2 = 0;
+		int b3 = 0;
+		int b4 = 0; 
+		if(keyBonds.length == 2 && key2Bonds.length == 2){
+			
+
+		for(int i = 0; i < keyBonds.length; i++){
+				if(i == 0){
+					if(keyBonds[i] > 1000){
+						b1 = MyParser.bonds.get(keyBonds[i]).getE();
+					}
+					if(keyBonds[i] < 1000){
+						b1 = MyParser.bonds.get(keyBonds[i]).getB();
+					}
+				}else{
+					if(keyBonds[i] > 1000){
+						b2 = MyParser.bonds.get(keyBonds[i]).getE();
+					}
+					if(keyBonds[i] < 1000){
+						b2 = MyParser.bonds.get(keyBonds[i]).getB();
+					}
+				}
+		}
+				for(int i = 0; i < keyBonds.length; i++){
+					if(i == 0){
+						if(key2Bonds[i] > 1000){
+							b3 = MyParser.bonds.get(keyBonds[i]).getE();
+						}
+						if(key2Bonds[i] < 1000){
+							b3 = MyParser.bonds.get(keyBonds[i]).getB();
+						}
+					}else{
+						if(key2Bonds[i] > 1000){
+							b4 = MyParser.bonds.get(keyBonds[i]).getE();
+						}
+						if(key2Bonds[i] < 1000){
+							b4 = MyParser.bonds.get(keyBonds[i]).getB();
+						}
+					}
+				
+		}
+				
+		g.addEdge(new JUNGbond(atoms.get(b1),atoms.get(b3), 20), atoms.get(b1),atoms.get(b3));
 		
+		g.addEdge(new JUNGbond(atoms.get(b2),atoms.get(b4), 20), atoms.get(b2),atoms.get(b4));
+
+		
+		}	
 		System.out.println("# bonds is: " + g.getEdges().size());
 		
  
@@ -97,15 +177,15 @@ public class JUNGExample{
 		System.out.println("I've been called");
 		int[][] connected = new int[40][40];
 		
-		for (Integer key3 : p.bonds.keySet()){
-			connected[p.bonds.get(key3).getB()][p.bonds.get(key3).getE()] = 1; 
-			connected[p.bonds.get(key3).getE()][p.bonds.get(key3).getB()] = 1; 
+		for (Integer key3 : MyParser.bonds.keySet()){
+			connected[MyParser.bonds.get(key3).getB()][MyParser.bonds.get(key3).getE()] = 1; 
+			connected[MyParser.bonds.get(key3).getE()][MyParser.bonds.get(key3).getB()] = 1; 
 		}
 		int count = 0; 
 		while(count > 0){
-			for (Integer key3 : p.nodes.keySet()){
-				for (Integer key4 : p.nodes.keySet()){
-					for (Integer key5 : p.nodes.keySet()){
+			for (Integer key3 : MyParser.nodes.keySet()){
+				for (Integer key4 : MyParser.nodes.keySet()){
+					for (Integer key5 : MyParser.nodes.keySet()){
 						if(connected[key3][key4] == 1 && connected[key4][key5] == 1){
 							if(connected[key3][key5] == 1){
 								count++; 
@@ -124,24 +204,24 @@ public class JUNGExample{
 			result = false; 
 		}
 		result = false; 
-		for(Integer key3 : p.bonds.keySet()){
-			if(key == p.bonds.get(key3).getB()){
-				if(p.nodes.get(key).getElement() != 6){
+		for(Integer key3 : MyParser.bonds.keySet()){
+			if(key == MyParser.bonds.get(key3).getB()){
+				if(MyParser.nodes.get(key).getElement() != 6){
 					result = true; 
 				}
 			}
-			if(key2 == p.bonds.get(key3).getB()){
-				if(p.nodes.get(key2).getElement() != 6){
+			if(key2 == MyParser.bonds.get(key3).getB()){
+				if(MyParser.nodes.get(key2).getElement() != 6){
 					result = true; 
 				}
 			}
 		}
 		System.out.println(key);
 		System.out.println(key2); 
-		System.out.println("The first element is: "+ p.nodes.get(key).getElement());
-		System.out.println("The second element is: "+ p.nodes.get(key2).getElement());
+		System.out.println("The first element is: "+ MyParser.nodes.get(key).getElement());
+		System.out.println("The second element is: "+ MyParser.nodes.get(key2).getElement());
 		
-		if(p.nodes.get(key).getElement() == 6 && p.nodes.get(key2).getElement() == 6){
+		if(MyParser.nodes.get(key).getElement() == 6 && MyParser.nodes.get(key2).getElement() == 6){
 			System.out.println("The result is true");
 			return true;
 		}else{
