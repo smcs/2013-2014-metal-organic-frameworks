@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JOGL 2.0"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Java3D 1.6.0pre9"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JUNG 2.0.1"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Java3D 1.6.0pre9"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JOGL 2.0"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

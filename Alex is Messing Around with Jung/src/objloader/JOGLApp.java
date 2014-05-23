@@ -1,17 +1,14 @@
 package objloader;
 
 import java.awt.Frame;
-
 import javax.swing.JFrame;
-
-
-
+import javax.xml.stream.XMLStreamException;
 
 
 public class JOGLApp
 {
 	 
-	public static void main (String[] args) 
+	public static void main (String[] args) throws XMLStreamException, Exception 
 	{
 		
 		//parser p = new parser();
