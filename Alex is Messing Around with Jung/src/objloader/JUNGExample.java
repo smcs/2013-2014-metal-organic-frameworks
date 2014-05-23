@@ -39,9 +39,18 @@ public class JUNGExample{
 		
 		//add nodes from the parser with 
 		for (Integer key : MyParser.nodes.keySet()){
-			atoms.put(key, new JUNGatom(MyParser.nodes.get(key).getName(),MyParser.nodes.get(key).getName()
-					,MyParser.nodes.get(key).getElement()));
+			if(MyParser.nodes.get(key).getElement() == 6.0){
+				atoms.put(key, new JUNGatom("C","Carbon"
+						,-300));
+			}
+			if(MyParser.nodes.get(key).getElement() == 8.0){
+				atoms.put(key, new JUNGatom("O","Oxygen"
+						,-300));
+			}
+		
 			g.addVertex(atoms.get(key)); 
+			System.out.println("The names are: " + atoms.get(key).getWeight());
+			
 		}
 		
 		//add edges of bonds from the parser 
@@ -86,87 +95,65 @@ public class JUNGExample{
 			}
 			
 		}
-		int[] keyBonds = new int[4];
-		int[] key2Bonds = new int[4];
-		for (Integer key : atoms.keySet()){
-			for (Integer key2 : atoms.keySet()){
-				if(atoms.get(key).getSymbol() == "C" && atoms.get(key2).getSymbol() == "C"){
-
-					int i = 0;
-					int j = 0; 
-					//+1000 corresponds to the bond beginning of the bond on the Carbon
-					for (Integer key3 : MyParser.bonds.keySet()){
-						if(MyParser.bonds.get(key3).getB() == key){
-							keyBonds[i] = key3 + 1000; 
-							i++;
-						}
-						if(MyParser.bonds.get(key3).getB() == key2){
-							key2Bonds[j] = key3 + 1000;
-							j++;
-						}
-					    if(MyParser.bonds.get(key3).getE() == key){
-					    	keyBonds[i] = key3;
-					    	i++;
-						}
-						if(MyParser.bonds.get(key3).getE() == key2){
-							key2Bonds[j] = key3;
-							j++; 
-						}
+		int count = 0; 
+		int[][] connectedBonds;
+		//for each carbon we get an array of bonds beginning and ending on that carbon. 
+		for(int key: atoms.keySet()){
+			System.out.println("I'm Working!"); 
+			count = 0; 
+			connectedBonds = new int[4][2];
+			System.out.println(atoms.get(key).getSymbol()); 
+			if(atoms.get(key).getWeight() == 6.0){
+				System.out.println("I also work here"); 
+				for(int key2: MyParser.bonds.keySet()){
+					if(MyParser.bonds.get(key2).getB() == key){
+						
+						connectedBonds[count][0] = key2;
+						connectedBonds[count][1] = 0; 
+						System.out.println("Printing data " + connectedBonds[count][0]); 
+						count++; 
+						
+						
 					}
-
+					if(MyParser.bonds.get(key2).getE() == key){
+						
+						connectedBonds[count][0] = key2;
+						connectedBonds[count][1] = 1; 
+						System.out.println("Printing data " + connectedBonds[count][0]); 
+						count++; 
+						
+						
+					}
 				}
-
-			}
-		}
-		int b1 = 0;
-		int b2 = 0;
-		int b3 = 0;
-		int b4 = 0; 
-		if(keyBonds.length == 2 && key2Bonds.length == 2){
 			
-
-		for(int i = 0; i < keyBonds.length; i++){
-				if(i == 0){
-					if(keyBonds[i] > 1000){
-						b1 = MyParser.bonds.get(keyBonds[i]).getE();
-					}
-					if(keyBonds[i] < 1000){
-						b1 = MyParser.bonds.get(keyBonds[i]).getB();
-					}
-				}else{
-					if(keyBonds[i] > 1000){
-						b2 = MyParser.bonds.get(keyBonds[i]).getE();
-					}
-					if(keyBonds[i] < 1000){
-						b2 = MyParser.bonds.get(keyBonds[i]).getB();
+				int newCount = 4 - count;
+				//for every bond the carbon is "missing" 
+				Vector<JUNGatom> newAtoms = new Vector<JUNGatom>(); 
+				System.out.println("The count is" + newCount); 
+				for(int i = 0; i < newCount; i++){
+					System.out.println("I'm adding atoms"); 
+					JUNGatom a = new JUNGatom("0","0",1);
+					newAtoms.add(a); 
+					//g.addVertex(a); 
+					//g.addEdge(new JUNGbond(atoms.get(key), a, 100), atoms.get(key),a);
+				}
+				//add edges between newly placed atoms
+				for(int i = 0; i < newAtoms.size(); i++){
+					if(i+1 < newAtoms.size()){
+						/*g.addEdge(new JUNGbond(newAtoms.get(i),newAtoms.get(i+1),100)
+						, newAtoms.get(i),newAtoms.get(i+1));
+					}else{
+						g.addEdge(new JUNGbond(newAtoms.get(i),newAtoms.get(0),100)
+						, newAtoms.get(i),newAtoms.get(0));
+						*/
 					}
 				}
+					
+			}
+			//add extra bonds to the carbons 
 		}
-				for(int i = 0; i < keyBonds.length; i++){
-					if(i == 0){
-						if(key2Bonds[i] > 1000){
-							b3 = MyParser.bonds.get(keyBonds[i]).getE();
-						}
-						if(key2Bonds[i] < 1000){
-							b3 = MyParser.bonds.get(keyBonds[i]).getB();
-						}
-					}else{
-						if(key2Bonds[i] > 1000){
-							b4 = MyParser.bonds.get(keyBonds[i]).getE();
-						}
-						if(key2Bonds[i] < 1000){
-							b4 = MyParser.bonds.get(keyBonds[i]).getB();
-						}
-					}
-				
-		}
-				
-		g.addEdge(new JUNGbond(atoms.get(b1),atoms.get(b3), 20), atoms.get(b1),atoms.get(b3));
 		
-		g.addEdge(new JUNGbond(atoms.get(b2),atoms.get(b4), 20), atoms.get(b2),atoms.get(b4));
-
-		
-		}	
+			
 		System.out.println("# bonds is: " + g.getEdges().size());
 		
  
